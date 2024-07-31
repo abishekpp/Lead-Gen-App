@@ -97,6 +97,4 @@ setInterval(() => {
   console.log(received_updates);
 }, 8000);
 
-// app.listen((address, error)=>{
-//   console.log("Server started on port"+ 5000);
-// });
+app.listen();
