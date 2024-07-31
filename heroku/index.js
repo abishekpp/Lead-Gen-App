@@ -90,12 +90,18 @@ app.post('/facebook', function(req, res) {
   // Process the Facebook updates here
   received_updates.unshift(req.body);
   res.sendStatus(200);
+
+
 });
 
 
 setInterval(() => {
   for(const update of received_updates) {
-    console.log(update);
+    for(const entry of update.entry) {
+      for(const change of entry.changes) {
+        console.log(change);
+      }
+    }
   }
 }, 8000);
 
