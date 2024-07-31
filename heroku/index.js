@@ -88,6 +88,7 @@ function processUpdates() {
           pageId: change.value.page_id
         }
         leadData.push(lead);
+        console.log(leadData);
         console.log(change);
       }
     }
@@ -100,6 +101,7 @@ async function fetchLeadData(leadgenId, accessToken) {
   try {
     const response = await fetch(url);
     const data = await response.json();
+    console.log("data retrived:"+ data);
     return data;
   } catch (error) {
     console.error('Error fetching lead data:', error);
@@ -123,7 +125,8 @@ app.post('/facebook', function(req, res) {
 
   processUpdates();
   
-  for(const lead of leadData) {
+  for(let i = 0; i < leadData.length; i++) {
+    const lead = leadData[i];
     const data = fetchLeadData(lead.leadgenId, pageAccessToken);
     console.log(data);
   }
