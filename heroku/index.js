@@ -101,7 +101,7 @@ async function fetchLeadData(leadgenId, accessToken) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.dir("data retrived:"+ data);
+    console.log('Data retrieved:', JSON.stringify(data, null, 2));
     return data;
   } catch (error) {
     console.error('Error fetching lead data:', error);
@@ -109,7 +109,7 @@ async function fetchLeadData(leadgenId, accessToken) {
   }
 }
 
-app.post('/facebook', function(req, res) {
+app.post('/facebook', async function(req, res) {
   console.log('Facebook request body:', req.body);
 
   if (!req.isXHubValid()) {
@@ -125,10 +125,14 @@ app.post('/facebook', function(req, res) {
 
   processUpdates();
   
-  for(let i = 0; i < leadData.length; i++) {
+  for (let i = 0; i < leadData.length; i++) {
     const lead = leadData[i];
-    const data = fetchLeadData(lead.leadgenId, pageAccessToken);
-    console.dir(data);
+    try {
+      const data = await fetchLeadData(lead.leadgenId, pageAccessToken); 
+      console.log('Data retrieved:', JSON.stringify(data, null, 2)); 
+    } catch (error) {
+      console.error('Error retrieving lead data:', error);
+    }
   }
 });
 
