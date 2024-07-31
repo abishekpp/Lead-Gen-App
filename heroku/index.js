@@ -77,6 +77,16 @@ app.get('/facebook', function(req, res) {
 
 const received_updates = [];
 
+function processUpdates() {
+  for(const update of received_updates) {
+    for(const entry of update.entry) {
+      for(const change of entry.changes) {
+        console.log(change);
+      }
+    }
+  }
+}
+
 app.post('/facebook', function(req, res) {
   console.log('Facebook request body:', req.body);
 
@@ -90,19 +100,9 @@ app.post('/facebook', function(req, res) {
   // Process the Facebook updates here
   received_updates.unshift(req.body);
   res.sendStatus(200);
+  
+  processUpdates();
+}); 
 
-
-});
-
-
-setInterval(() => {
-  for(const update of received_updates) {
-    for(const entry of update.entry) {
-      for(const change of entry.changes) {
-        console.log(change);
-      }
-    }
-  }
-}, 8000);
 
 app.listen();
