@@ -19,6 +19,7 @@ const appSecret = process.env.APP_SECRET;
 const verifyToken = process.env.VERIFY_TOKEN;
 const appAccessToken = process.env.APP_ACCESS_TOKEN;
 const appCallbackUrl = process.env.APP_CALLBACK_URL;
+const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
 
 app.set('port', (port));
 app.listen(app.get('port'));
@@ -76,14 +77,33 @@ app.get('/facebook', function(req, res) {
 // postWebhookSubscription();
 
 const received_updates = [];
+const leadData = [];
 
 function processUpdates() {
   for(const update of received_updates) {
     for(const entry of update.entry) {
       for(const change of entry.changes) {
+        const lead ={
+          leadgenId: change.value.leadgen_id,
+          pageId: change.value.page_id
+        }
+        leadData.push(lead);
         console.log(change);
       }
     }
+  }
+}
+
+// Graph api for retrive lead details
+async function fetchLeadData(leadgenId, accessToken) {
+  const url = `https://graph.facebook.com/v20.0/${leadgenId}?access_token=${accessToken}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching lead data:', error);
+    return null;
   }
 }
 
@@ -100,9 +120,15 @@ app.post('/facebook', function(req, res) {
   // Process the Facebook updates here
   received_updates.unshift(req.body);
   res.sendStatus(200);
-  
+
   processUpdates();
-}); 
+  
+  for(const lead of leadData) {
+    const data = fetchLeadData(lead.leadgenId, pageAccessToken);
+    console.log(data);
+  }
+});
+
 
 
 app.listen();
