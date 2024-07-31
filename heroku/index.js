@@ -6,7 +6,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const { default: axios } = require('axios');
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
@@ -93,9 +92,9 @@ app.post('/facebook', function(req, res) {
 });
 
 
-setInterval(() => {
-  console.log(received_updates);
-}, 5000);
+// setInterval(() => {
+//   console.log(received_updates);
+// }, 5000);
 
 app.listen((address, error)=>{
   console.log("Server started on port"+ 5000);
