@@ -26,8 +26,6 @@ app.listen(app.get('port'));
 app.use(xhub({ algorithm: 'sha1', secret: process.env.APP_SECRET }));
 app.use(bodyParser.json());
 
-const received_updates = [];
-
 app.get('/', function(req, res) {
   console.log(req);
   res.send('<pre>' + JSON.stringify(received_updates, null, 2) + '</pre>');
@@ -39,6 +37,7 @@ app.get('/facebook', function(req, res) {
     req.query['hub.verify_token'] == verify_token
   ) {
     res.send(req.query['hub.challenge']);
+    console.log("Web hook is set up");
   } else {
     res.sendStatus(400);
   }
@@ -76,6 +75,8 @@ app.get('/facebook', function(req, res) {
 
 // postWebhookSubscription();
 
+const received_updates = [];
+
 app.post('/facebook', function(req, res) {
   console.log('Facebook request body:', req.body);
 
@@ -94,7 +95,7 @@ app.post('/facebook', function(req, res) {
 
 setInterval(() => {
   console.log(received_updates);
-}, 5000);
+}, 8000);
 
 // app.listen((address, error)=>{
 //   console.log("Server started on port"+ 5000);
