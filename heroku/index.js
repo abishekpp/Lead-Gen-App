@@ -101,7 +101,7 @@ async function fetchLeadData(leadgenId, accessToken) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log("data retrived:"+ data);
+    console.dir("data retrived:"+ data);
     return data;
   } catch (error) {
     console.error('Error fetching lead data:', error);
@@ -128,7 +128,7 @@ app.post('/facebook', function(req, res) {
   for(let i = 0; i < leadData.length; i++) {
     const lead = leadData[i];
     const data = fetchLeadData(lead.leadgenId, pageAccessToken);
-    console.log(data);
+    console.dir(data);
   }
 });
 
