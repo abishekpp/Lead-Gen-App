@@ -96,6 +96,6 @@ app.post('/facebook', function(req, res) {
 //   console.log(received_updates);
 // }, 5000);
 
-app.listen((address, error)=>{
-  console.log("Server started on port"+ 5000);
-});
+// app.listen((address, error)=>{
+//   console.log("Server started on port"+ 5000);
+// });
