@@ -94,7 +94,9 @@ app.post('/facebook', function(req, res) {
 
 
 setInterval(() => {
-  console.log(received_updates);
+  for(const update of received_updates) {
+    console.log(update);
+  }
 }, 8000);
 
 app.listen();
