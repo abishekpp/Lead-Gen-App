@@ -92,9 +92,9 @@ app.post('/facebook', function(req, res) {
 });
 
 
-// setInterval(() => {
-//   console.log(received_updates);
-// }, 5000);
+setInterval(() => {
+  console.log(received_updates);
+}, 5000);
 
 // app.listen((address, error)=>{
 //   console.log("Server started on port"+ 5000);
